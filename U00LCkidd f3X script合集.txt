@@ -1,0 +1,46 @@
+local OrionLib = loadstring(game:HttpGet("https://pastebin.com/raw/Ne470NUV"))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "U00LCkidd private f3x gui by UNETHICALLICHAIRMAN need f3x",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "ScriptHubConfig"
+})
+
+local Tab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://93940162168593",
+    PremiumOnly = false
+})
+
+Tab:AddParagraph("YO BRO, "Please follow me on bilibili, NAME:UNETHICALLICHAIRMAN.")
+Tab:AddParagraph("Credits", "Script created by Unethicallichairman. OGQQ:3961321982.")
+Tab:AddParagraph("Credits to the people who gave me scripts..", "Thank you to everyone who contributed scripts. Your support is greatly appreciated!")
+
+Tab:AddButton({
+    Name = "GUI",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/erj36334-ui/U00LCkidd/main/U00LCkidd%20F3X%20SCRIPT%20HACKED%20gui.txt"))()
+    end
+})
+
+Tab:AddButton({
+    Name = "U00LCKIDD COFFEE SHOP",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/erj36334-ui/U00LCkidd/main/U00LCkidd%E5%92%96%E5%95%A1%E9%A6%86(f3x).txt"))()
+    end
+})
+
+Tab:AddButton({
+    Name = "realm 1",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com//erj36334-ui/U00LCkidd/main/Destroy.txt"))()
+    end
+})
+
+Tab:AddButton({
+    Name = "realm 2",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/erj36334-ui/U00LCkidd/main/U00lckidRealm.txt))()
+    end
+})
