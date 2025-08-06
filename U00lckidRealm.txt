@@ -1,0 +1,745 @@
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RequestCommand = ReplicatedStorage:WaitForChild("HDAdminHDClient").Signals.RequestCommandSilent
+local player = game.Players.LocalPlayer
+local char = player.Character
+local backpack = player.Backpack
+
+local function getf3x()
+	for _, v in ipairs(backpack:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	for _, v in ipairs(char:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	return nil
+end
+
+local f3x = getf3x()
+if not f3x then
+	warn("you dont have f3x skid")
+end
+local syncapi = f3x.SyncAPI
+local serverendpoint = syncapi.ServerEndpoint
+
+local function _(args)
+serverendpoint:InvokeServer(unpack(args))
+end
+
+function MovePart(part, cf)
+    local args = {
+        "SyncMove",
+        {
+            {
+                Part = part,
+                CFrame = cf
+            }
+        }
+    }
+    _(args)
+end
+
+local function light(part)
+
+
+	local createArgs = {
+		"CreateLights",
+		{
+			{
+				Part = part,
+				LightType = "PointLight"
+			}
+		}
+	}
+
+
+	local syncArgs = {
+		"SyncLighting",
+		{
+			{
+				Part = part,
+				LightType = "PointLight",
+				Color = Color3.fromRGB(255, 255, 255),
+        Brightness = 3,
+				Range = 60,
+			}
+		}
+	}
+
+	_(createArgs)
+	_(syncArgs)
+end
+
+
+local function light2(part)
+
+
+	local createArgs = {
+		"CreateLights",
+		{
+			{
+				Part = part,
+				LightType = "PointLight"
+			}
+		}
+	}
+
+
+	local syncArgs = {
+		"SyncLighting",
+		{
+			{
+				Part = part,
+				LightType = "PointLight",
+				Color = Color3.fromRGB(255, 255, 255),
+				Range = 60,
+			}
+		}
+	}
+
+	_(createArgs)
+	_(syncArgs)
+end
+
+
+local function resize(part, size, cf)
+	local args = {
+		"SyncResize",
+		{
+			{
+				Part = part,
+				CFrame = cf,
+				Size = size
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmaterial(part, mate)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Material = mate
+			}
+		}
+	}
+	_(args)
+end
+
+local function transparency(part, trans)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Transparency = trans
+			}
+		}
+	}
+	_(args)
+end
+
+local function color(part, color)
+	local args = {
+		"SyncColor",
+		{
+			{
+				Part = part,
+				Color = color,
+				UnionColoring = false
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshid(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				MeshId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function makemesh(part)
+	local args = {
+		"CreateMeshes",
+		{
+			{
+				Part = part
+			}
+		}
+	}
+	_(args)
+end
+local function powerYourBalls(part) 
+    
+    local argsCreate = {
+        [1] = "CreateDecorations",
+        [2] = {
+            [1] = {
+                ["Part"] = part,
+                ["DecorationType"] = "Fire"
+            }
+        }
+    }
+
+   
+    local argsSync = {
+        [1] = "SyncDecorate",
+        [2] = {
+            [1] = {
+                ["Part"] = part,
+                ["DecorationType"] = "Fire",
+                ["Size"] = 10,
+                ["Heat"] = 25,
+                ["Color"] = Color3.fromRGB(51, 51, 255), 
+                ["SecondaryColor"] = Color3.fromRGB(255, 0, 0) 
+            } 
+        } 
+    }
+
+    
+    _(argsCreate)
+    _(argsSync)
+end
+local function syncmeshsize(part, vectora)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				Scale = vectora
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshtexture(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				TextureId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function name(part, stringa)
+	local args = {
+		"SetName",
+		{ part },
+		stringa
+	}
+	_(args)
+end
+
+local function lock(part, boolean)
+	local args = {
+		"SetLocked",
+		{ part },
+		boolean
+	}
+	_(args)
+end
+
+local function setcollision(part, booleana)
+	local args = {
+		"SyncCollision",
+		{
+			{
+				Part = part,
+				CanCollide = booleana
+			}
+		}
+	}
+	_(args)
+end
+
+local function setanchor(part, boolean)
+	local args = {
+		"SyncAnchor",
+		{
+			{
+				Part = part,
+				Anchored = boolean
+			}
+		}
+	}
+	_(args)
+end
+
+local function createdecal(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal"
+			}
+		}
+	}
+	_(args)
+end
+
+local function setdecal(part, asset, side)
+	local args = {
+		"SyncTexture",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal",
+				Texture = "rbxassetid://" .. asset
+			}
+		}
+	}
+	_(args)
+end
+
+local function createtexture(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Texture"
+			}
+		}
+	}
+	_(args)
+end
+
+function carpet(part)
+			local args = {
+				[1] = "SyncTexture",
+				[2] = {
+					[1] = {
+						["Part"] = part,
+						["Face"] = Enum.NormalId.Top,
+						["TextureType"] = "Texture",
+						["Texture"] = "rbxassetid://124151427651571",
+						["StudsPerTileV"] = 15,
+						["StudsPerTileU"] = 15
+					}
+				}
+			}
+			_(args)
+		end
+
+local function makerealmbase()
+local cf2 = CFrame.new(-23.874, 49, 11.852)
+	local wall5 = serverendpoint:InvokeServer("CreatePart", "Normal", cf2, workspace.Terrain)
+  syncmaterial(wall5, Enum.Material.Concrete)
+  light(base)
+	resize(wall5, Vector3.new(130, 1, 89), cf2)
+
+	local position = CFrame.new(-24.599, 24.5, -32.58)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace.Terrain)
+	resize(base, Vector3.new(138, 49, 2), position)
+	name(base, "wall2")
+  syncmaterial(base, Enum.Material.Concrete)
+	lock(base, true)
+
+	local spawnpos = CFrame.new(-24.599, 24.5, 55.42)
+	local spawna = serverendpoint:InvokeServer("CreatePart", "Normal", spawnpos, workspace.Terrain)
+	resize(spawna, Vector3.new(138, 49, 2), spawnpos)
+	name(spawna, "wall1")
+  syncmaterial(spawna, Enum.Material.Concrete)
+	lock(spawna, true)
+
+	local pos = CFrame.new(-23.874, 0, 11.852)
+	local rules = serverendpoint:InvokeServer("CreatePart", "Normal", pos, workspace.Terrain)
+	color(rules, Color3.fromRGB(255, 0, 0))
+  syncmaterial(rules, Enum.Material.Carpet)
+	resize(rules, Vector3.new(130, 1, 89), pos)
+createtexture(rules, Enum.NormalId.Top)
+carpet(rules)
+
+	local cf = CFrame.new(38.901, 24.5, 11.92)
+	local wall3 = serverendpoint:InvokeServer("CreatePart", "Normal", cf, workspace.Terrain)
+  syncmaterial(wall3, Enum.Material.Concrete)
+	resize(wall3, Vector3.new(1, 49, 91), cf)
+
+	local cf1 = CFrame.new(-89.099, 24.5, 11.92)
+	local wall4 = serverendpoint:InvokeServer("CreatePart", "Normal", cf1, workspace.Terrain)
+	resize(wall4, Vector3.new(1, 49, 91), cf1)
+  syncmaterial(wall4, Enum.Material.Concrete)
+	
+
+
+	local cfStatue = CFrame.new(-76.971, 2.5, 8.748)
+	local StatueStand = serverendpoint:InvokeServer("CreatePart", "Normal", cfStatue, workspace.Terrain)
+	resize(StatueStand, Vector3.new(13, 5, 16), cfStatue)
+  makemesh(StatueStand)
+  syncmeshid(StatueStand, "14103096952")
+  syncmeshsize(StatueStand, Vector3.new(10, 10, 10))
+  color(StatueStand, Color3.fromRGB(56, 56, 56))
+  
+
+
+
+
+local HisCFrame = CFrame.new(-77.241, 12, 8.652)
+	local Only = serverendpoint:InvokeServer("CreatePart", "Normal", HisCFrame, workspace.Terrain)
+
+	resize(Only, Vector3.new(12, 16, 4), HisCFrame)
+  makemesh(Only)
+  syncmeshid(Only, "74312427006016")
+  syncmeshsize(Only, Vector3.new(3, 3, 3))
+  syncmeshtexture(Only, 122599551209854)
+  MovePart(Only, Only.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+
+
+
+local IsL = CFrame.new(-88.764, 28.4, 8.967)
+	local islaThingy = serverendpoint:InvokeServer("CreatePart", "Normal", IsL, workspace.Terrain)
+resize(islaThingy, Vector3.new(1, 15, 15), IsL)
+makemesh(islaThingy)
+syncmeshid(islaThingy, "109062984999424")
+color(islaThingy, Color3.fromRGB(181, 165, 40))
+MovePart(islaThingy, islaThingy.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+local koopPos = CFrame.new(2.625, 3, 50.54)
+	local K00pkid = serverendpoint:InvokeServer("CreatePart", "Normal", koopPos, workspace.Terrain)
+resize(K00pkid, Vector3.new(4, 5, 2), koopPos)
+makemesh(K00pkid)
+syncmeshid(K00pkid, "102738449791511")
+syncmeshtexture(K00pkid, "138187799112356")
+MovePart(K00pkid, K00pkid.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+
+
+local skel = CFrame.new(-0.999, 20.6, 53.92)
+	local skele = serverendpoint:InvokeServer("CreatePart", "Normal", skel, workspace.Terrain)
+resize(skele, Vector3.new(48.2, 31, 1), skel)
+createdecal(skele, Enum.NormalId.Front)
+setdecal(skele, "96943548698627", Enum.NormalId.Front)
+
+local pos1 = CFrame.new(37.073, 12.4, 51.473)
+	local text1 = serverendpoint:InvokeServer("CreatePart", "Normal", pos1, workspace.Terrain)
+resize(text1, Vector3.new(5.1, 7, 6.9), pos1)
+transparency(text1, 1)
+createdecal(text1, Enum.NormalId.Left)
+setdecal(text1, "119603015180003", Enum.NormalId.Left)
+
+local pos3 = CFrame.new(35.425, 5.5, 40.95)
+	local PC = serverendpoint:InvokeServer("CreatePart", "Normal", pos3, workspace.Terrain)
+makemesh(PC)
+syncmeshid(PC, "8657366243")
+syncmeshtexture(PC, "82138087829769")
+syncmeshsize(PC, Vector3.new(2, 2, 2))
+MovePart(PC, PC.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos4 = CFrame.new(33.156, 3, 49.646)
+	local Plank1 = serverendpoint:InvokeServer("CreatePart", "Normal", pos4, workspace.Terrain)
+resize(Plank1, Vector3.new(0.5, 6, 0.5), pos4)
+color(Plank1, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank1, Enum.Material.WoodPlanks)
+
+local pos5 = CFrame.new(32.906, 6.25, 49.896)
+	local Plank2 = serverendpoint:InvokeServer("CreatePart", "Normal", pos5, workspace.Terrain)
+resize(Plank2, Vector3.new(1, 3.5, 6), pos5)
+color(Plank2, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank2, Enum.Material.WoodPlanks)
+
+local pos6 = CFrame.new(35.884, 2, 42.073)
+	local table = serverendpoint:InvokeServer("CreatePart", "Normal", pos6, workspace.Terrain)
+resize(table, Vector3.new(4, 4, 8), pos6)
+color(table, Color3.fromRGB(99, 59, 5))
+syncmaterial(table, Enum.Material.WoodPlanks)
+
+
+
+local pos7 = CFrame.new(32.384, 6.7, 50.268)
+	local text2 = serverendpoint:InvokeServer("CreatePart", "Normal", pos7, workspace.Terrain)
+setcollision(text2, false)
+resize(text2, Vector3.new(0.5, 8, 12.5), pos7)
+transparency(text2, 1)
+createdecal(text2, Enum.NormalId.Left)
+setdecal(text2, "73038332719588", Enum.NormalId.Left)
+
+local pos8 = CFrame.new(37.196, 6.5, 12.417)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "10857433732")
+color(door, Color3.fromRGB(99, 59, 5))
+
+local pos9 = CFrame.new(3.168, 1.35, 46.557)
+	local wall7 = serverendpoint:InvokeServer("CreatePart", "Normal", pos9, workspace.Terrain)
+resize(wall7, Vector3.new(16.2, 2.7, 0.8), pos9)
+color(wall7, Color3.fromRGB(0, 255, 0))
+
+local pos10 = CFrame.new(10.968, 1.35, 50.407)
+	local wall8 = serverendpoint:InvokeServer("CreatePart", "Normal", pos10, workspace.Terrain)
+resize(wall8, Vector3.new(0.6, 2.7, 7.1), pos10)
+color(wall8, Color3.fromRGB(255, 0, 0))
+
+local pos11 = CFrame.new(-4.382, 1.35, 50.607)
+	local wall9 = serverendpoint:InvokeServer("CreatePart", "Normal", pos11, workspace.Terrain)
+resize(wall9, Vector3.new(0.6, 2.7, 7.1), pos11)
+color(wall9, Color3.fromRGB(0, 0, 255))
+
+local pos12 = CFrame.new(2.795, 8, 50.413)
+	local bubblechat = serverendpoint:InvokeServer("CreatePart", "Normal", pos12, workspace.Terrain)
+resize(bubblechat, Vector3.new(11.4, 8, 0.1), pos12)
+transparency(bubblechat, 1)
+
+local IsL = CFrame.new(-80.264, 3.4, 40.467)
+	local islaThingy = serverendpoint:InvokeServer("CreatePart", "Normal", IsL, workspace.Terrain)
+makemesh(islaThingy)
+syncmeshid(islaThingy, "109062984999424")
+syncmeshsize(islaThingy, Vector3.new(0.3, 0.3, 0.3))
+color(islaThingy, Color3.fromRGB(181, 165, 40))
+MovePart(islaThingy, islaThingy.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+createdecal(bubblechat, Enum.NormalId.Front)
+setdecal(bubblechat, "102002754753325", Enum.NormalId.Front)
+setcollision(bubblechat, false)
+
+local lelz = CFrame.new(-80.285, 18.5, -16.084)
+	local idk = serverendpoint:InvokeServer("CreatePart", "Normal", lelz, workspace.Terrain)
+  makemesh(idk)
+  syncmeshtexture(idk, "139786158359857")
+  syncmeshid(idk, "112516303122108")
+MovePart(idk, idk.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+local kfc = CFrame.new(20.371, -0.1, 12.897)
+	local spawner = serverendpoint:InvokeServer("CreatePart", "Spawn", kfc, workspace.Terrain)
+
+local staired = CFrame.new(-78.191, 4.164, -15.858)
+	local stairs = serverendpoint:InvokeServer("CreatePart", "Normal", staired, workspace.Terrain)
+resize(stairs, Vector3.new(12, 1, 4), staired)
+transparency(stairs, 1)
+MovePart(stairs, stairs.CFrame * CFrame.Angles(0, 0, math.rad(-45)))
+
+
+local pos13 = CFrame.new(4.095, 1.5, 53.781)
+	local BallsPit = serverendpoint:InvokeServer("CreatePart", "Normal", pos13, workspace.Terrain)
+makemesh(BallsPit)
+syncmeshid(BallsPit, "8200798154")
+syncmeshtexture(BallsPit, "127138541855595")
+syncmeshsize(BallsPit, Vector3.new(0.34, 0.3, 0.3))
+
+
+local pos14 = CFrame.new(-32.145, 20.55, -31.554)
+	local loader = serverendpoint:InvokeServer("CreatePart", "Normal", pos14, workspace.Terrain)
+resize(loader, Vector3.new(68.2, 41.1, 1), pos14)
+transparency(loader, 1)
+
+createdecal(loader, Enum.NormalId.Back)
+setdecal(loader, "96745279051904", Enum.NormalId.Back)
+
+local pos15 = CFrame.new(-80.942, 2.7, 40.11)
+	local Plank3 = serverendpoint:InvokeServer("CreatePart", "Normal", pos15, workspace.Terrain)
+resize(Plank3, Vector3.new(0.8, 5.4, 7.4), pos15)
+color(Plank3, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank3, Enum.Material.WoodPlanks)
+
+
+local pos16 = CFrame.new(-84.842, 1.6, 40.11)
+	local Plank4 = serverendpoint:InvokeServer("CreatePart", "Normal", pos16, workspace.Terrain)
+resize(Plank4, Vector3.new(8.6, 3.2, 7.4), pos16)
+color(Plank4, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank4, Enum.Material.WoodPlanks)
+
+local pos17 = CFrame.new(84.842, 1.2, 39.56)
+	local Plank5 = serverendpoint:InvokeServer("CreatePart", "Normal", pos17, workspace.Terrain)
+resize(Plank5, Vector3.new(8.6, 2.4, 8.5), pos17)
+color(Plank5, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank5, Enum.Material.WoodPlanks)
+
+local pos18 = CFrame.new(-84.842, 0.85, 39.11)
+	local Plank6 = serverendpoint:InvokeServer("CreatePart", "Normal", pos18, workspace.Terrain)
+resize(Plank6, Vector3.new(8.6, 1.7, 9.4), pos18)
+color(Plank6, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank6, Enum.Material.WoodPlanks)
+
+local pos19 = CFrame.new(-84.842, 0.6, 38.66)
+	local Plank7 = serverendpoint:InvokeServer("CreatePart", "Normal", pos19, workspace.Terrain)
+resize(Plank7, Vector3.new(8.6, 1.2, 10.3), pos19)
+color(Plank7, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank7, Enum.Material.WoodPlanks)
+
+local powered = CFrame.new(-77.182, 19, -0.77)
+	local power = serverendpoint:InvokeServer("CreatePart", "Ball", powered, workspace.Terrain)
+resize(power, Vector3.new(8, 5.2, 6), powered)
+color(power, Color3.fromRGB(209, 5, 255))
+syncmaterial(power, Enum.Material.ForceField)
+powerYourBalls(power)
+
+local pos20 = CFrame.new(-85.142, 2.7, 43.76)
+	local Plank8 = serverendpoint:InvokeServer("CreatePart", "Normal", pos20, workspace.Terrain)
+resize(Plank8, Vector3.new(9.2, 5.4, 0.1), pos20)
+color(Plank8, Color3.fromRGB(99, 59, 5))
+syncmaterial(Plank8, Enum.Material.WoodPlanks)
+
+local pos21 = CFrame.new(-84.042, 5.218, 40.353)
+	local Player19 = serverendpoint:InvokeServer("CreatePart", "Normal", pos21, workspace.Terrain)
+makemesh(Player19)
+syncmeshid(Player19, "7879233630")
+syncmeshtexture(Player19, "113929343766399")
+MovePart(Player19, Player19.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+local pos22 = CFrame.new(-83.786, 9, 40.369)
+	local bub = serverendpoint:InvokeServer("CreatePart", "Normal", pos22, workspace.Terrain)
+resize(bub, Vector3.new(0.1, 9.6, 10.3), pos22)
+transparency(bub, 1)
+createdecal(bub, Enum.NormalId.Right)
+setdecal(bub, "110299358003859", Enum.NormalId.Right)
+MovePart(bub, bub.CFrame * CFrame.Angles(0, math.rad(15), 0))
+
+local onlyPosed = CFrame.new(-84.57, 12.5, -15.936)
+	local OnlyMyBro = serverendpoint:InvokeServer("CreatePart", "Normal", onlyPosed, workspace.Terrain)
+resize(OnlyMyBro, Vector3.new(4, 6, 2), onlyPosed)
+makemesh(OnlyMyBro)
+syncmeshid(OnlyMyBro, "107809273608355")
+syncmeshtexture(OnlyMyBro, "107477207690813")
+MovePart(OnlyMyBro, OnlyMyBro.CFrame * CFrame.Angles(0, math.rad(-90), 0))
+
+local position = CFrame.new(-88.386, 27, -30.549)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace.Terrain)
+	resize(base, Vector3.new(14, 54, 13), position)
+	name(base, "wall2")
+  syncmaterial(base, Enum.Material.Concrete)
+	lock(base, true)
+light2(base)
+local position = CFrame.new(-91.386, 27, 54.451)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace.Terrain)
+	resize(base, Vector3.new(14, 54, 13), position)
+	name(base, "wall2")
+  syncmaterial(base, Enum.Material.Concrete)
+	lock(base, true)
+light2(base)
+local position = CFrame.new(37.614, 27, -30.549)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace.Terrain)
+	resize(base, Vector3.new(14, 54, 13), position)
+	name(base, "wall2")
+  syncmaterial(base, Enum.Material.Concrete)
+	lock(base, true)
+light2(base)
+local position = CFrame.new(41.614, 27, 54.451)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace.Terrain)
+	resize(base, Vector3.new(14, 54, 13), position)
+	name(base, "wall2")
+  syncmaterial(base, Enum.Material.Concrete)
+	lock(base, true)
+  light2(base)
+
+local pos8 = CFrame.new(37.756, 29.106, 43.241)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 28.706, -5.959)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 29.106, -18.959)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 12.706, 43.741)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 12.706, 30.841)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 12.706, -5.959)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 12.706, -19.259)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+local pos8 = CFrame.new(37.756, 28.706, 30.841)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace.Terrain)
+makemesh(door)
+syncmeshid(door, "2300405926")
+syncmeshsize(door, Vector3.new(2, 2, 2))
+color(door, Color3.fromRGB(255, 255, 255))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+
+end
+function DestroyPart(part)
+    local args = {
+        [1] = "Remove",
+        [2] = {
+            [1] = part
+        }
+    }
+    _(args)
+end
+local function unanchorall()
+	for _, v in ipairs(workspace:GetDescendants()) do
+		if v:IsA("BasePart") or v:IsA("UnionOperation") then
+			spawn(function()
+				DestroyPart(v)
+			end)
+		end
+	end
+end
+
+local function realm()
+RequestCommand:InvokeServer(";punish me")
+	unanchorall()
+
+	task.wait(15)
+	makerealmbase()
+  RequestCommand:InvokeServer(";music 6038063555 ;volume inf")
+end
+
+realm()
+
+--size=32.2, 17, 1
+--pos=-50.999, 13.6, 53.92
